@@ -36,11 +36,9 @@ def staff_only(function):
 def task_lists(request):
     tdate = datetime.datetime.now()
 
-    # Make sure user belongs to at least one group.
     if request.user.groups.all().count() == 0:
         messages.warning(request, "You do not yet belong to any groups. Ask your administrator to add you to one.")
 
-    # Superusers see all lists
     if request.user.is_superuser:
         lists = TaskList.objects.all().order_by('group', 'name')
     else:
@@ -48,17 +46,15 @@ def task_lists(request):
 
     cnt_list = lists.count()
 
-    # superusers see all lists, so count shouldn't filter by just lists the admin belongs to
     if request.user.is_superuser:
         cnt_task = Task.objects.filter(completed=0).count()
     else:
         cnt_task = Task.objects.filter(completed=0).filter(task_list__group__in=request.user.groups.all()).count()
 
     context = {
-       "lists": lists,
-       "tdate": tdate,
+        "lists": lists,
+        "tdate": tdate,
         "cnt_task": cnt_task,
-       "cnt_list": cnt_list,
+        "cnt_list": cnt_list,
     }
-
     return render(request, 'index.html', context)
