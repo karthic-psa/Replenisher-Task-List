@@ -89,3 +89,25 @@ def tasks_view(request, list_id=None, list_slug=None, view_completed=False):
     }
 
     return render(request, 'tasks_view.html', context)
+
+
+# @login_required
+def task_toggle(request,
+                task_id,  # type: int
+                ):
+
+    task = get_object_or_404(Task, pk=task_id)
+
+    if not (
+        (task.user_created == request.user) or
+        (task.user_assigned_to == request.user) or
+        (task.list_of_task.group in request.user.groups.all())
+    ):
+        raise PermissionDenied
+
+    listot = task.list_of_task
+    task.completed = not task.completed
+    task.save()
+
+    messages.success(request, "Task status changed for '{}'".format(task.title))
+    return redirect(reverse('tasks_view', kwargs={"list_id": listot.id, "list_slug": listot.slug}))

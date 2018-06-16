@@ -6,7 +6,7 @@
 {% block content %}
 
   {% if list_slug != "personal" %}
-    <button class="btn btn-primary" id="AddTaskButton" type="button"
+    <button class="btn btn-primary" id="AddTaskBtn" type="button"
       data-toggle="collapse" data-target="#AddEditTask">Add Task</button>
 
     <hr />
@@ -58,7 +58,7 @@
                 </a>
               </td>
             <td>
-                <a href="" class="btn btn-info btn-sm">
+                <a href="{% url "task_toggle_done" task.id %}" class="btn btn-info btn-sm">
                   {% if view_completed %}
                     Not Done
                   {% else %}
@@ -69,8 +69,9 @@
           </tr>
         {% endfor %}
       </table>
-
+      {% include 'toggling.html' %}
   {% else %}
+    {% include 'toggling.html' %}
     <h4>No tasks on this list yet (add one!)</h4>
 
   {% endif %}

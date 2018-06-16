@@ -27,12 +27,17 @@ urlpatterns = [
         {'list_slug': 'personal'},
         name="personal"),
 
-    url(r'^(?P<list_id>[\w-]+)/(?P<list_slug>\w+)/completed/',
+    url(r'^(?P<list_id>[0-9]+)/(?P<list_slug>\w+)/completed/',
         views.tasks_view,
         {'view_completed': True},
         name='tasks_view_completed'),
 
-    url(r'^(?P<list_id>[\w-]+)/(?P<list_slug>\w+)/',
+    url(r'^(?P<list_id>[0-9]+)/(?P<list_slug>\w+)/',
         views.tasks_view,
         name='tasks_view'),
+
+    url(
+        r'^task_toggle/(?P<task_id>[0-9]+)/',
+        views.task_toggle,
+        name='task_toggle_done'),
 ]
