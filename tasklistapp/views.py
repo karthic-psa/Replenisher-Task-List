@@ -72,7 +72,7 @@ def tasks_view(request, list_id=None, list_slug=None, view_completed=False):
         list_task = get_object_or_404(TaskList, id=list_id)
         if list_task.group not in request.user.groups.all() and not request.user.is_staff:
             raise PermissionDenied
-        tasks = Task.objects.filter(task_list=list_task.id)
+        tasks = Task.objects.filter(list_of_task=list_task.id)
 
     if view_completed:
         tasks = tasks.filter(completed=True)
