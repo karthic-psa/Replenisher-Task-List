@@ -58,3 +58,33 @@ def task_lists(request):
         "cnt_list": cnt_list,
     }
     return render(request, 'index.html', context)
+
+
+# @login_required
+def list_detail(request, list_id=None, list_slug=None, view_completed=False):
+    list_task = None
+    form = None
+
+    if list_slug == "personal":
+        tasks = Task.objects.filter(assigned_to=request.user)
+    else:
+        list_task = get_object_or_404(TaskList, id=list_id)
+        if list_task.group not in request.user.groups.all() and not request.user.is_staff:
+            raise PermissionDenied
+        tasks = Task.objects.filter(task_list=list_task.id)
+
+    if view_completed:
+        tasks = tasks.filter(completed=True)
+    else:
+        tasks = tasks.filter(completed=False)
+
+    context = {
+        "list_id": list_id,
+        "list_slug": list_slug,
+        "list_task": list_task,
+        "form": form,
+        "tasks": tasks,
+        "view_completed": view_completed,
+    }
+
+    return render(request, 'tasks.html', context)
