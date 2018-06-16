@@ -12,6 +12,7 @@ from django.utils import timezone
 class TaskList(models.Model):
     name = models.CharField(max_length=60)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    slug = models.SlugField(default='', )
 
 
 class Task(models.Model):

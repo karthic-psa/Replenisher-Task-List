@@ -22,20 +22,17 @@ app_name = 'tasklistapp'
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^tasks/', views.task_lists, name='task_lists'),
-    url(
-        r'^personal/',
+    url(r'^personal/',
         views.tasks_view,
         {'list_slug': 'personal'},
         name="personal"),
 
-    url(
-        '<int:list_id>/<str:list_slug>/completed/',
+    url(r'^(?P<list_id>[\w-]+)/(?P<list_slug>\w+)/completed/',
         views.tasks_view,
         {'view_completed': True},
         name='tasks_view_completed'),
 
-    url(
-        '<int:list_id>/<str:list_slug>/',
+    url(r'^(?P<list_id>[\w-]+)/(?P<list_slug>\w+)/',
         views.tasks_view,
         name='tasks_view'),
 ]
