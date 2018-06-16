@@ -17,7 +17,25 @@ from django.conf.urls import url
 from django.contrib import admin
 from tasklistapp import views
 
+app_name = 'tasklistapp'
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^tasks/', views.task_lists, name='task_lists'),
+    url(
+        r'^personal/',
+        views.tasks_view,
+        {'list_slug': 'personal'},
+        name="personal"),
+
+    url(
+        '<int:list_id>/<str:list_slug>/completed/',
+        views.tasks_view,
+        {'view_completed': True},
+        name='tasks_view_completed'),
+
+    url(
+        '<int:list_id>/<str:list_slug>/',
+        views.tasks_view,
+        name='tasks_view'),
 ]

@@ -88,4 +88,4 @@ def tasks_view(request, list_id=None, list_slug=None, view_completed=False):
         "view_completed": view_completed,
     }
 
-    return render(request, 'tasks.html', context)
+    return render(request, 'tasks_view.html', context)
