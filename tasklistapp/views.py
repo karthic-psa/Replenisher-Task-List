@@ -5,7 +5,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.contrib.sites.models import Site
+# from django.contrib.sites.models import Site
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.db import IntegrityError
@@ -32,7 +32,7 @@ def staff_only(function):
     wrap.__name__ = function.__name__
     return wrap
 
-@login_required
+# @login_required
 def task_lists(request):
     tdate = datetime.datetime.now()
 
@@ -49,7 +49,7 @@ def task_lists(request):
     if request.user.is_superuser:
         cnt_task = Task.objects.filter(completed=0).count()
     else:
-        cnt_task = Task.objects.filter(completed=0).filter(task_list__group__in=request.user.groups.all()).count()
+        cnt_task = Task.objects.filter(completed=0).filter(list_of_task__group__in=request.user.groups.all()).count()
 
     context = {
         "lists": lists,
