@@ -26,7 +26,8 @@
           <th>Due on</th>
           <th>Owner</th>
           <th>Assigned</th>
-          <th>Status</th>
+          <th>Current Status</th>
+          <th>Change Status</th>
         </tr>
 
         {% for task in tasks %}
@@ -47,6 +48,15 @@
             <td>
               {% if task.user_assigned_to %}{{ task.user_assigned_to }}{% else %}Anyone{% endif %}
             </td>
+            <td>
+                <a href="" class="btn btn-info btn-sm">
+                  {% if view_completed %}
+                    Done
+                  {% else %}
+                    Not Done
+                  {% endif %}
+                </a>
+              </td>
             <td>
                 <a href="" class="btn btn-info btn-sm">
                   {% if view_completed %}
