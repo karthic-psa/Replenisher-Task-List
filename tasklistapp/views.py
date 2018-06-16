@@ -32,6 +32,7 @@ def staff_only(function):
     wrap.__name__ = function.__name__
     return wrap
 
+
 # @login_required
 def task_lists(request):
     tdate = datetime.datetime.now()
@@ -61,7 +62,7 @@ def task_lists(request):
 
 
 # @login_required
-def list_detail(request, list_id=None, list_slug=None, view_completed=False):
+def tasks_view(request, list_id=None, list_slug=None, view_completed=False):
     list_task = None
     form = None
 
