@@ -27,4 +27,3 @@ class Task(models.Model):
     user_assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True,
                                          related_name='task_assigned_to', on_delete=models.CASCADE)
     note = models.TextField(blank=True, null=True)
-

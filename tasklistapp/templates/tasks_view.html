@@ -1,22 +1,23 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
-{% block title %}Todo List: {{ task_list.name }}{% endblock %}
+{% block title %}Task List: {{ list_task.name }}{% endblock %}
 
 {% block content %}
 
   {% if list_slug != "personal" %}
-    <button class="btn btn-primary" id="AddTaskBtn" type="button"
-      data-toggle="collapse" data-target="#AddEditTask">Add Task</button>
-
+    <button class="btn btn-primary" id="AddTaskButton" type="button"
+      data-toggle="collapse" data-target="#AddTask" aria-expanded="false">Add Task</button>
+      {% include 'add_task.html' %}
     <hr />
   {% endif %}
 
   {% if tasks %}
-    {% if list_slug == "mine" %}
-      <h1>Tasks assigned to me (in all groups)</h1>
+    {% if list_slug == "personal" %}
+      <h1>Tasks assigned to me</h1>
     {% else %}
       <h1>{{ view_completed|yesno:"Completed tasks, Tasks" }} in "{{ list_task.name }}"</h1>
+      <p><small><i>In Group "{{ list_task.group }}"</i></small></p>
     {% endif %}
 
       <table class="table" id="tasktable">

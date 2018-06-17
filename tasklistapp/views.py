@@ -79,6 +79,24 @@ def tasks_view(request, list_id=None, list_slug=None, view_completed=False):
     else:
         tasks = tasks.filter(completed=False)
 
+    # if request.POST.getlist('add_task'):
+    #     form = TaskForm(request.user, request.POST, initial={
+    #         'user_assigned_to': request.user.id,
+    #         'priority': 999,
+    #         'list_task': list_task
+    #     })
+    #
+    #     if form.is_valid():
+    #         new_task = form.save(commit=False)
+    #         new_task.created_date = timezone.now()
+    #         form.save()
+    # else:
+    #     if list_slug not in ["mine", "recent-add", "recent-complete", ]:
+    #         form = TaskForm(request.user, initial={
+    #             'user_assigned_to': request.user.id,
+    #             'priority': 999,
+    #             'list_task': list_task,
+    #         })
     context = {
         "list_id": list_id,
         "list_slug": list_slug,
