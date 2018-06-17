@@ -68,7 +68,7 @@ def tasks_view(request, list_id=None, list_slug=None, view_completed=False):
     form = None
 
     if list_slug == "personal":
-        tasks = Task.objects.filter(assigned_to=request.user)
+        tasks = Task.objects.filter(user_assigned_to=request.user)
     else:
         list_task = get_object_or_404(TaskList, id=list_id)
         if list_task.group not in request.user.groups.all() and not request.user.is_staff:
@@ -123,10 +123,8 @@ def tasks_view(request, list_id=None, list_slug=None, view_completed=False):
     return render(request, 'tasks_view.html', context)
 
 
-# @login_required
-def task_toggle(request,
-                task_id,  # type: int
-                ):
+@login_required
+def task_toggle(request, task_id):
 
     task = get_object_or_404(Task, pk=task_id)
 
@@ -150,7 +148,6 @@ def task_delete(request, task_id):
 
     task = get_object_or_404(Task, pk=task_id)
 
-    # Permissions
     if not (
         (task.user_created == request.user) or
         (task.user_assigned_to == request.user) or

@@ -51,20 +51,19 @@
               {% if task.user_assigned_to %}{{ task.user_assigned_to }}{% else %}Anyone{% endif %}
             </td>
             <td>
-                <a href="" class="btn btn-info btn-sm">
                   {% if view_completed %}
-                    Done
+                      <button type="button" class="btn btn-success btn-sm"> Done </button>
                   {% else %}
-                    Not Done
+                    <button type="button" class="btn btn-dark btn-sm"> Not Done </button>
                   {% endif %}
                 </a>
               </td>
             <td>
                 <a href="{% url "task_toggle_done" task.id %}" class="btn btn-info btn-sm">
                   {% if view_completed %}
-                    Not Done
+                    Mark-Not Done
                   {% else %}
-                    Done
+                    Mark-Done
                   {% endif %}
                 </a>
               </td>

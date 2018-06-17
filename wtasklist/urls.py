@@ -22,8 +22,7 @@ app_name = 'tasklistapp'
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^tasks/', views.task_lists, name='task_lists'),
-    url(r'^personal/',
-        views.tasks_view,
+    url(r'^personal/', views.tasks_view,
         {'list_slug': 'personal'},
         name="personal"),
 
