@@ -14,6 +14,14 @@ class TaskList(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     slug = models.SlugField(default='', )
 
+    class Meta:
+        ordering = ["name"]
+        verbose_name_plural = "Task Lists"
+        unique_together = ("group", "slug")
+
+    def __str__(self):
+        return self.name
+
 
 class Task(models.Model):
     title = models.CharField(max_length=140)
@@ -27,3 +35,23 @@ class Task(models.Model):
     user_assigned_to = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True,
                                          related_name='task_assigned_to', on_delete=models.CASCADE)
     note = models.TextField(blank=True, null=True)
+
+    class Meta:
+        ordering = ["priority"]
+
+    def overdue_status(self):
+        if self.date_due and datetime.date.today() > self.date_due:
+            return True
+
+    def get_absolute_url(self):
+        return reverse('task_detail', kwargs={'task_id': self.id, })
+
+    def save(self, **kwargs):
+        if self.completed:
+            self.completed_date = datetime.datetime.now()
+        super(Task, self).save()
+
+    def __str__(self):
+        return self.title
+
+
