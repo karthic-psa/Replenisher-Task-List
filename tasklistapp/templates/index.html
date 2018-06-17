@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>Replenisher Task Lists</h1>
+{% if user.is_authenticated %}
 {% if messages %}
   <ul class="messages">
       {% for message in messages %}
@@ -9,7 +10,7 @@
   </ul>
 {% endif %}
 
-   {% if user.is_authenticated %}
+
 
   <p>{{ cnt_task }} tasks to be done in {{ cnt_list }} list{{ cnt_list|pluralize }}</p>
 
@@ -29,7 +30,7 @@
   <div class="mt-3">
 
     {% if user.is_staff %}
-      <a href="" class="btn btn-primary">Create new todo list</a>
+      <a href="{% url 'add_list' %}" class="btn btn-primary">Create new todo list</a>
     {% else %}
       <a href="" class="btn btn-primary disabled">If you were staff, you could create a new list</a>
     {% endif %}

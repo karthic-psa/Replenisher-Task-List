@@ -21,17 +21,18 @@ app_name = 'tasklistapp'
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', views.task_lists, name='task_lists_home'),
     url(r'^tasks/', views.task_lists, name='task_lists'),
     url(r'^personal/', views.tasks_view,
         {'list_slug': 'personal'},
         name="personal"),
 
-    url(r'^(?P<list_id>[0-9]+)/(?P<list_slug>\w+)/completed/',
+    url(r'^(?P<list_id>[0-9]+)/(?P<list_slug>[a-zA-Z0-9!@#$&()-`.+,]*)/completed/',
         views.tasks_view,
         {'view_completed': True},
         name='tasks_view_completed'),
 
-    url(r'^(?P<list_id>[0-9]+)/(?P<list_slug>\w+)/',
+    url(r'^(?P<list_id>[0-9]+)/(?P<list_slug>[a-zA-Z0-9!@#$&()-`.+,]*)/',
         views.tasks_view,
         name='tasks_view'),
 
@@ -49,6 +50,11 @@ urlpatterns = [
         r'^task/(?P<task_id>[0-9]+)/',
         views.task_detail,
         name='task_detail'),
+
+    url(
+        r'^add_list/',
+        views.add_list,
+        name="add_list"),
 
     url(r'^accounts/', include('django.contrib.auth.urls'))
 ]

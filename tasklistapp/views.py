@@ -19,7 +19,7 @@ from django.utils.text import slugify
 from django.views.decorators.csrf import csrf_exempt
 
 from models import Task, TaskList
-from task_form import AETaskForm
+from task_form import AETaskForm, TaskListForm
 
 
 def staff_only(function):
@@ -197,3 +197,34 @@ def task_detail(request, task_id):
     }
 
     return render(request, 'detail_of_task.html', context)
+
+@staff_only
+@login_required
+def add_list(request):
+
+    if request.POST:
+        form = TaskListForm(request.user, request.POST)
+        if form.is_valid():
+            try:
+                newlist = form.save(commit=False)
+                newlist.slug = slugify(newlist.name)
+                newlist.save()
+                messages.success(request, "A new list has been added.")
+                return redirect('task_lists')
+
+            except IntegrityError:
+                messages.warning(
+                    request,
+                    "There was a problem saving the new list. "
+                    "Most likely a list with the same name in the same group already exists.")
+    else:
+        if request.user.groups.all().count() == 1:
+            form = TaskListForm(request.user, initial={"group": request.user.groups.all()[0]})
+        else:
+            form = TaskListForm(request.user)
+
+    context = {
+        "form": form,
+    }
+
+    return render(request, 'new_list_add.html', context)
