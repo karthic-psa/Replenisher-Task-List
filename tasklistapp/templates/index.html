@@ -1,8 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>Replenisher Task Lists</h1>
+{% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+{% endif %}
 
-  <p>{{ cnt_task }} tasks in {{ cnt_list }} list{{ cnt_list|pluralize }}</p>
+   {% if user.is_authenticated %}
+
+  <p>{{ cnt_task }} tasks to be done in {{ cnt_list }} list{{ cnt_list|pluralize }}</p>
 
   {% regroup lists by group as section_list %}
   {% for group in section_list %}
@@ -11,7 +20,7 @@
       {% for task in group.list %}
       <li class="list-group-item d-flex justify-content-between align-items-center">
         <a href="{% url 'tasks_view' task.id task.slug %}">{{ task.name }}</a>
-        <span class="badge badge-primary badge-pill">{{ task.task_set.count }}</span>
+        <span class="badge badge-primary badge-pill">Total Tasks: {{ task.task_set.count }}</span>
       </li>
       {% endfor %}
     </ul>
@@ -26,5 +35,10 @@
     {% endif %}
 
   </div>
+          {% else %}
+       <div><p class="bg-primary">>Please Login to see content</p></div>
+              <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+
+          {% endif %}
 
 {% endblock %}

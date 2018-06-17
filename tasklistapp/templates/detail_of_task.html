@@ -4,8 +4,15 @@
 {% block title %}Task:{{ task.title }}{% endblock %}
 
 {% block content %}
+    {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+{% endif %}
 <a href="{% url 'tasks_view' task.list_of_task.id task.list_of_task.slug %}" class="btn btn-info btn-sm">
-            Back-{{ task.list_of_task }}
+            Back: {{ task.list_of_task }}
           </a>
   <div class="row">
     <div class="col-sm-8">

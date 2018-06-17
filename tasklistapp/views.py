@@ -66,7 +66,6 @@ def task_lists(request):
 def tasks_view(request, list_id=None, list_slug=None, view_completed=False):
     list_of_task = None
     form = None
-
     if list_slug == "personal":
         tasks = Task.objects.filter(user_assigned_to=request.user)
     else:
@@ -123,7 +122,7 @@ def tasks_view(request, list_id=None, list_slug=None, view_completed=False):
     return render(request, 'tasks_view.html', context)
 
 
-@login_required
+# @login_required
 def task_toggle(request, task_id):
 
     task = get_object_or_404(Task, pk=task_id)
@@ -143,7 +142,7 @@ def task_toggle(request, task_id):
     return redirect(reverse('tasks_view', kwargs={"list_id": listot.id, "list_slug": listot.slug}))
 
 
-@login_required
+# @login_required
 def task_delete(request, task_id):
 
     task = get_object_or_404(Task, pk=task_id)
@@ -162,7 +161,7 @@ def task_delete(request, task_id):
     return redirect(reverse('tasks_view', kwargs={"list_id": tlist.id, "list_slug": tlist.slug}))
 
 
-@login_required
+# @login_required
 def task_detail(request, task_id):
 
     task = get_object_or_404(Task, pk=task_id)
@@ -179,7 +178,7 @@ def task_detail(request, task_id):
     else:
         form = AETaskForm(request.user, instance=task, initial={'list_of_task': task.list_of_task})
 
-    if request.POST.get('toggle_done'):
+    if request.POST.get('task_toggle'):
         results_changed = task_toggle([task.id, ])
         for res in results_changed:
             messages.success(request, res)

@@ -55,7 +55,7 @@ ROOT_URLCONF = 'wtasklist.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        'DIRS': [os.path.join(BASE_DIR, './templates')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -70,7 +70,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'wtasklist.wsgi.application'
-
+# Redirect to home URL after login (Default redirects to /accounts/profile/)
+LOGIN_REDIRECT_URL = '/tasks'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases

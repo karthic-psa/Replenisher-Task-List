@@ -4,7 +4,13 @@
 {% block title %}Task List: {{ list_of_task.name }}{% endblock %}
 
 {% block content %}
-
+    {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+{% endif %}
   {% if list_slug != "personal" %}
     <button class="btn btn-primary" id="AddTaskButton" type="button"
       data-toggle="collapse" data-target="#AddTask" aria-expanded="false">Add Task</button>
