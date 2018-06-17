@@ -40,4 +40,9 @@ urlpatterns = [
         r'^task_toggle/(?P<task_id>[0-9]+)/',
         views.task_toggle,
         name='task_toggle_done'),
+
+    url(
+        r'^delete/(?P<task_id>[0-9]+)/',
+        views.task_delete,
+        name='task_delete'),
 ]

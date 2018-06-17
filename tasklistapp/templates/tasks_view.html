@@ -29,6 +29,7 @@
           <th>Assigned</th>
           <th>Current Status</th>
           <th>Change Status</th>
+          <th>Delete Task</th>
         </tr>
 
         {% for task in tasks %}
@@ -67,6 +68,9 @@
                   {% endif %}
                 </a>
               </td>
+            <td>
+              <a href="{% url "task_delete" task.id %}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
           </tr>
         {% endfor %}
       </table>

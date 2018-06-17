@@ -19,6 +19,7 @@ from django.utils.text import slugify
 from django.views.decorators.csrf import csrf_exempt
 
 from models import Task, TaskList
+from task_form import AETaskForm
 
 
 def staff_only(function):
@@ -79,24 +80,37 @@ def tasks_view(request, list_id=None, list_slug=None, view_completed=False):
     else:
         tasks = tasks.filter(completed=False)
 
-    # if request.POST.getlist('add_task'):
-    #     form = TaskForm(request.user, request.POST, initial={
-    #         'user_assigned_to': request.user.id,
-    #         'priority': 999,
-    #         'list_task': list_task
-    #     })
+    # if request.method == "POST":
+    #     if "add_task" in request.POST:
+    #         title = request.POST["title"]
+    #         note = request.POST["note"]
+    #         date_due = request.POST["date_due"]
+    #         priority = request.POST["priority"]
+    #         nTask = Task(title=title, note=note, date_due=date_due, priority=priority)
+    #         nTask.save()
+    #         return redirect("/")
     #
-    #     if form.is_valid():
-    #         new_task = form.save(commit=False)
-    #         new_task.created_date = timezone.now()
-    #         form.save()
-    # else:
-    #     if list_slug not in ["mine", "recent-add", "recent-complete", ]:
-    #         form = TaskForm(request.user, initial={
-    #             'user_assigned_to': request.user.id,
-    #             'priority': 999,
-    #             'list_task': list_task,
-    #         })
+    if request.POST.getlist('add_task'):
+        form = AETaskForm(request.user, request.POST, initial={
+            'user_assigned_to': request.user.id,
+            'priority': 999,
+            'list_task': list_task
+        })
+
+        if form.is_valid():
+            new_task = form.save(commit=False)
+            new_task.created_date = timezone.now()
+            form.save()
+
+            messages.success(request, "New task \"{t}\" has been added.".format(t=new_task.title))
+            return redirect(request.path)
+    else:
+        if list_slug not in ["personal", "recent-add", "recent-complete", ]:
+            form = AETaskForm(request.user, initial={
+                'user_assigned_to': request.user.id,
+                'priority': 999,
+                'list_task': list_task,
+            })
     context = {
         "list_id": list_id,
         "list_slug": list_slug,
@@ -129,3 +143,23 @@ def task_toggle(request,
 
     messages.success(request, "Task status changed for '{}'".format(task.title))
     return redirect(reverse('tasks_view', kwargs={"list_id": listot.id, "list_slug": listot.slug}))
+
+
+@login_required
+def task_delete(request, task_id):
+
+    task = get_object_or_404(Task, pk=task_id)
+
+    # Permissions
+    if not (
+        (task.user_created == request.user) or
+        (task.user_assigned_to == request.user) or
+        (task.list_of_task.group in request.user.groups.all())
+    ):
+        raise PermissionDenied
+
+    tlist = task.list_of_task
+    task.delete()
+
+    messages.success(request, "Task '{}' has been deleted".format(task.title))
+    return redirect(reverse('tasks_view', kwargs={"list_id": tlist.id, "list_slug": tlist.slug}))
