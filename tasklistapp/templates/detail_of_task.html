@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+
+{% block title %}Task:{{ task.title }}{% endblock %}
+
+{% block content %}
+<a href="{% url 'tasks_view' task.list_of_task.id task.list_of_task.slug %}" class="btn btn-info btn-sm">
+            Back-{{ task.list_of_task }}
+          </a>
+  <div class="row">
+    <div class="col-sm-8">
+      <h3 class="card-title">{{ task.title }}</h3>
+      {% if task.note %}
+        <p class="card-text">{{ task.note|safe|urlize|linebreaks }}</p>
+      {% endif %}
+    </div>
+
+    <div class="col-sm-4">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <form action="" method="post">
+            {% csrf_token %}
+
+            <button class="btn btn-sm btn-primary" id="EditTaskButton" type="button"
+            data-toggle="collapse" data-target="#AddTask">Edit Task</button>
+
+            <a href="{% url "task_toggle" task.id %}" class="btn btn-info btn-sm">
+              {% if task.completed %} Mark Not Done {% else %} Mark Done {% endif %}
+            </a>
+
+            <a href="{% url "task_delete" task.id %}" class="btn btn-danger btn-sm">Delete</a>
+          </form>
+        </li>
+        <li class="list-group-item">
+          <strong>Assigned to:</strong>
+          {% if task.assigned_to %} {{ task.assigned_to.get_full_name }} {% else %} Anyone {% endif %}
+        </li>
+        <li class="list-group-item">
+          <strong>Reported by:</strong> {{ task.created_by.get_full_name }}
+        </li>
+        <li class="list-group-item">
+          <strong>Due date:</strong> {{ task.due_date }}
+        </li>
+
+        {% if task.completed %}
+          <li class="list-group-item">
+            <strong>Completed on:</strong> {{ task.completed_date}}
+          </li>
+        {% else %}
+          <li class="list-group-item">
+            <strong>Completed:</strong> {{ task.completed|yesno:"Yes,No" }}
+          </li>
+        {% endif %}
+
+        <li class="list-group-item">
+          <strong>In list:</strong>
+          <a href="{% url 'tasks_view' task.list_of_task.id task.list_of_task.slug %}">
+            {{ task.list_of_task }}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="TaskEdit">
+    {% include 'add_task.html' %}
+  </div>
+
+{% endblock %}

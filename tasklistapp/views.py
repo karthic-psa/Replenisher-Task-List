@@ -64,16 +64,16 @@ def task_lists(request):
 
 # @login_required
 def tasks_view(request, list_id=None, list_slug=None, view_completed=False):
-    list_task = None
+    list_of_task = None
     form = None
 
     if list_slug == "personal":
         tasks = Task.objects.filter(user_assigned_to=request.user)
     else:
-        list_task = get_object_or_404(TaskList, id=list_id)
-        if list_task.group not in request.user.groups.all() and not request.user.is_staff:
+        list_of_task = get_object_or_404(TaskList, id=list_id)
+        if list_of_task.group not in request.user.groups.all() and not request.user.is_staff:
             raise PermissionDenied
-        tasks = Task.objects.filter(list_of_task=list_task.id)
+        tasks = Task.objects.filter(list_of_task=list_of_task.id)
 
     if view_completed:
         tasks = tasks.filter(completed=True)
@@ -94,7 +94,7 @@ def tasks_view(request, list_id=None, list_slug=None, view_completed=False):
         form = AETaskForm(request.user, request.POST, initial={
             'user_assigned_to': request.user.id,
             'priority': 999,
-            'list_task': list_task
+            'list_of_task': list_of_task
         })
 
         if form.is_valid():
@@ -109,12 +109,12 @@ def tasks_view(request, list_id=None, list_slug=None, view_completed=False):
             form = AETaskForm(request.user, initial={
                 'user_assigned_to': request.user.id,
                 'priority': 999,
-                'list_task': list_task,
+                'list_of_task': list_of_task,
             })
     context = {
         "list_id": list_id,
         "list_slug": list_slug,
-        "list_task": list_task,
+        "list_of_task": list_of_task,
         "form": form,
         "tasks": tasks,
         "view_completed": view_completed,
@@ -160,3 +160,41 @@ def task_delete(request, task_id):
 
     messages.success(request, "Task '{}' has been deleted".format(task.title))
     return redirect(reverse('tasks_view', kwargs={"list_id": tlist.id, "list_slug": tlist.slug}))
+
+
+@login_required
+def task_detail(request, task_id):
+
+    task = get_object_or_404(Task, pk=task_id)
+    if task.list_of_task.group not in request.user.groups.all() and not request.user.is_staff:
+        raise PermissionDenied
+
+    if request.POST.get('add_task'):
+        form = AETaskForm(request.user, request.POST, instance=task, initial={'list_of_task': task.list_of_task})
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "The task has been edited.")
+            return redirect('tasks_view', list_id=task.list_of_task.id, list_slug=task.list_of_task.slug)
+    else:
+        form = AETaskForm(request.user, instance=task, initial={'list_of_task': task.list_of_task})
+
+    if request.POST.get('toggle_done'):
+        results_changed = task_toggle([task.id, ])
+        for res in results_changed:
+            messages.success(request, res)
+
+        return redirect('task_detail', task_id=task.id,)
+
+    if task.date_due:
+        thedate = task.date_due
+    else:
+        thedate = datetime.datetime.now()
+
+    context = {
+        "task": task,
+        "form": form,
+        "thedate": thedate,
+    }
+
+    return render(request, 'detail_of_task.html', context)
