@@ -17,7 +17,7 @@ Keeping in mind on how to drive future enhancements.
 4. jQuery - already provided through CDN in project file
 5. SQLite3 - as the database (already preinstalled with the project on django)
 
-### Instructions on how to install and run the project: ###
+## Instructions on how to install and run the project: ##
 
 1. Make sure Python 2 (version 2.7) is installed; in Command Prompt or PowerShell, type ```python --version  (else install Python and ensure the Python path is updated in Environment Variables)
 	- To install Python - (Windows)
