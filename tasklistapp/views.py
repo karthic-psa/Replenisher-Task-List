@@ -1,25 +1,44 @@
 # -*- coding: utf-8 -*-
 import datetime
 
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-# from django.contrib.sites.models import Site
 from django.core.exceptions import PermissionDenied
-from django.core.mail import send_mail
 from django.db import IntegrityError
-from django.db.models import Q
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
-from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
-from django.views.decorators.csrf import csrf_exempt
+from rest_framework.viewsets import ModelViewSet
+
 
 from models import Task, TaskList
 from task_form import AETaskForm, TaskListForm
+from rest_framework import viewsets
+from django.contrib.auth.models import User, Group
+from serializers import TaskListViewSet, TaskViewSet, GroupSerializer, UserSerializer
+
+
+class TaskListViewSet(ModelViewSet):
+    queryset = TaskList.objects.all()
+    serializer_class = TaskListViewSet
+
+
+class TaskViewSet(ModelViewSet):
+    queryset = Task.objects.all().order_by('priority')
+    serializer_class = TaskViewSet
+
+
+class UserViewSet(viewsets.ModelViewSet):
+
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
 
 
 def staff_only(function):
@@ -34,7 +53,7 @@ def staff_only(function):
     return wrap
 
 
-# @login_required
+@login_required
 def task_lists(request):
     tdate = datetime.datetime.now()
 
@@ -62,7 +81,7 @@ def task_lists(request):
     return render(request, 'index.html', context)
 
 
-# @login_required
+@login_required
 def tasks_view(request, list_id=None, list_slug=None, view_completed=False):
     list_of_task = None
     form = None
@@ -79,16 +98,6 @@ def tasks_view(request, list_id=None, list_slug=None, view_completed=False):
     else:
         tasks = tasks.filter(completed=False)
 
-    # if request.method == "POST":
-    #     if "add_task" in request.POST:
-    #         title = request.POST["title"]
-    #         note = request.POST["note"]
-    #         date_due = request.POST["date_due"]
-    #         priority = request.POST["priority"]
-    #         nTask = Task(title=title, note=note, date_due=date_due, priority=priority)
-    #         nTask.save()
-    #         return redirect("/")
-    #
     if request.POST.getlist('add_task'):
         form = AETaskForm(request.user, request.POST, initial={
             'user_assigned_to': request.user.id,
@@ -122,53 +131,7 @@ def tasks_view(request, list_id=None, list_slug=None, view_completed=False):
     return render(request, 'tasks_view.html', context)
 
 
-# def add_task(request, list_id=None, list_slug=None, view_completed=False):
-#     list_of_task = None
-#     form = None
-#     if list_slug == "personal":
-#         tasks = Task.objects.filter(user_assigned_to=request.user)
-#     else:
-#         list_of_task = get_object_or_404(TaskList, id=list_id)
-#         if list_of_task.group not in request.user.groups.all() and not request.user.is_staff:
-#             raise PermissionDenied
-#         tasks = Task.objects.filter(list_of_task=list_of_task.id)
-#
-#     if view_completed:
-#         tasks = tasks.filter(completed=True)
-#     else:
-#         tasks = tasks.filter(completed=False)
-#     if request.POST:
-#         form = AETaskForm(request.user, request.POST, initial={
-#             'user_assigned_to': request.user.id,
-#             'priority': 999,
-#             'list_of_task': list_of_task
-#         })
-#         if form.is_valid():
-#             try:
-#                 newtask = form.save(commit=False)
-#                 newtask.created_date = timezone.now()
-#                 newtask.save()
-#                 messages.success(request, "A new task has been added.")
-#                 return redirect('tasks_view')
-#             except IntegrityError:
-#                 messages.warning(
-#                     request,
-#                     "There was a problem saving the new task.")
-#
-#     else:
-#         if list_slug not in ["personal", "recent-add", "recent-complete", ]:
-#             form = AETaskForm(request.user, initial={
-#                 'user_assigned_to': request.user.id,
-#                 'priority': 999,
-#                 'list_of_task': list_of_task,
-#             })
-#     context = {
-#         'form': form
-#     }
-
-    # return render(request,'add_task.html',context)
-
-# @login_required
+@login_required
 def task_toggle(request, task_id):
 
     task = get_object_or_404(Task, pk=task_id)
@@ -188,7 +151,7 @@ def task_toggle(request, task_id):
     return redirect(reverse('tasks_view', kwargs={"list_id": listot.id, "list_slug": listot.slug}))
 
 
-# @login_required
+@login_required
 def task_delete(request, task_id):
 
     task = get_object_or_404(Task, pk=task_id)
@@ -207,7 +170,7 @@ def task_delete(request, task_id):
     return redirect(reverse('tasks_view', kwargs={"list_id": tlist.id, "list_slug": tlist.slug}))
 
 
-# @login_required
+@login_required
 def task_detail(request, task_id):
 
     task = get_object_or_404(Task, pk=task_id)
@@ -244,6 +207,7 @@ def task_detail(request, task_id):
 
     return render(request, 'detail_of_task.html', context)
 
+
 @staff_only
 @login_required
 def add_list(request):
@@ -276,8 +240,8 @@ def add_list(request):
     return render(request, 'new_list_add.html', context)
 
 
-# @staff_only
-# @login_required
+@staff_only
+@login_required
 def delete_list(request, list_id, list_slug):
     list_of_task = get_object_or_404(TaskList, slug=list_slug)
 
