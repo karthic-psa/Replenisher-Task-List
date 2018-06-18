@@ -24,8 +24,7 @@ urlpatterns = [
     url(r'^$', views.task_lists, name='task_lists_home'),
     url(r'^tasks/', views.task_lists, name='task_lists'),
 
-    url(
-        r'^(?P<list_id>[0-9]+)/(?P<list_slug>[a-zA-Z0-9!@#$&()\-`.+,]+)/delete/',
+    url(r'^(?P<list_id>[0-9]+)/(?P<list_slug>[a-zA-Z0-9!@#$&()\-`.+,]+)/delete/',
         views.delete_list,
         name="delete_list"),
 
@@ -42,23 +41,19 @@ urlpatterns = [
         views.tasks_view,
         name='tasks_view'),
 
-    url(
-        r'^add_list/',
+    url(r'^add_list/',
         views.add_list,
         name="add_list"),
 
-    url(
-        r'^task_toggle/(?P<task_id>[0-9]+)/',
+    url(r'^task_toggle/(?P<task_id>[0-9]+)/',
         views.task_toggle,
         name='task_toggle'),
 
-    url(
-        r'^task/(?P<task_id>[0-9]+)/',
+    url(r'^task/(?P<task_id>[0-9]+)/',
         views.task_detail,
         name='task_detail'),
 
-    url(
-        r'^delete/(?P<task_id>[0-9]+)/',
+    url(r'^delete/(?P<task_id>[0-9]+)/',
         views.task_delete,
         name='task_delete'),
 
