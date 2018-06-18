@@ -23,10 +23,12 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.task_lists, name='task_lists_home'),
     url(r'^tasks/', views.task_lists, name='task_lists'),
+
     url(
         r'^(?P<list_id>[0-9]+)/(?P<list_slug>[a-zA-Z0-9!@#$&()\-`.+,]+)/delete/',
         views.delete_list,
         name="delete_list"),
+
     url(r'^personal/', views.tasks_view,
         {'list_slug': 'personal'},
         name="personal"),
@@ -39,6 +41,12 @@ urlpatterns = [
     url(r'^(?P<list_id>[0-9]+)/(?P<list_slug>[a-zA-Z0-9!@#$&()\-`.+,]*)/',
         views.tasks_view,
         name='tasks_view'),
+
+
+    url(
+        r'^add_list/',
+        views.add_list,
+        name="add_list"),
 
     url(
         r'^task_toggle/(?P<task_id>[0-9]+)/',
@@ -54,11 +62,6 @@ urlpatterns = [
         r'^task/(?P<task_id>[0-9]+)/',
         views.task_detail,
         name='task_detail'),
-
-    url(
-        r'^add_list/',
-        views.add_list,
-        name="add_list"),
 
 
 
