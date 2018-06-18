@@ -240,7 +240,7 @@ def delete_list(request, list_id, list_slug):
 
     if request.method == 'POST':
         TaskList.objects.get(id=list_of_task.id).delete()
-        messages.success(request, "{list_name} is gone.".format(list_name=list_of_task.name))
+        messages.success(request, "{list_name} - list has been deleted.".format(list_name=list_of_task.name))
         return redirect('task_lists')
     else:
         task_count_done = Task.objects.filter(list_of_task=list_of_task.id, completed=True).count()
