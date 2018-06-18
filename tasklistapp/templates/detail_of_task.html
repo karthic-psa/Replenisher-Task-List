@@ -40,18 +40,29 @@
         </li>
         <li class="list-group-item">
           <strong>Assigned to:</strong>
-          {% if task.assigned_to %} {{ task.assigned_to.get_full_name }} {% else %} Anyone {% endif %}
+          {% if task.user_assigned_to %}
+              {% if task.user_assigned_to.get_full_name %}
+              {{ task.user_assigned_to.get_full_name }}
+              {% else %}
+              {{ task.user_assigned_to }}
+              {% endif %}
+              {% else %} Anyone {% endif %}
         </li>
         <li class="list-group-item">
-          <strong>Reported by:</strong> {{ task.created_by.get_full_name }}
+          <strong>Reported by:</strong>
+            {% if task.user_created.get_full_name %}
+              {{ task.user_created.get_full_name }}
+              {% else %}
+              {{ task.user_created }}
+              {% endif %}
         </li>
         <li class="list-group-item">
-          <strong>Due date:</strong> {{ task.due_date }}
+          <strong>Due Date:</strong> {{ task.date_due }}
         </li>
 
         {% if task.completed %}
           <li class="list-group-item">
-            <strong>Completed on:</strong> {{ task.completed_date}}
+            <strong>Completed on:</strong> {{ task.date_completed}}
           </li>
         {% else %}
           <li class="list-group-item">
