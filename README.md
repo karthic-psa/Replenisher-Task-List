@@ -91,9 +91,10 @@ Keeping in mind on how to drive future enhancements.
 1. Still working on a few features:
 	- Feedback loop for users
 	- A better algorithm to handle priorities of different tasks in a list
-	- More robust url regex handlers to handle various types of user inputs and requests
+	- More robust url regex handlers to handle various types of user inputs and requests while maintaining logical consistency
 	- Ability to capture metrics and track usage patterns 
 	- Search tasks ablility based on user auth
 	- More API (JSON) endpoints which filters results according to specific requests and provide CRUD functionality with APIs
 	
 2. Followed Test Driven Development (TDD) while building the app. However, need to perform more robust and automated testing to ensure proper functionality (Performed manual testing for the features provided in the application and ensured it works properly)
+	- Need to add the test files - unit tests and tests performed till now
