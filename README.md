@@ -45,7 +45,7 @@ Keeping in mind on how to drive future enhancements.
  			- ```cd ~\dirname\homedirname```
  			- ```.\Scripts\activate```
 		6. To Reactivate and Deactivate Virtualenv
-			- ```cd ~\dirname\homedirname # or your virtualenv's path
+			- ```cd ~\dirname\homedirname # or your virtualenv's path```
 			- ```.\Scripts\activate```
 			-```(homedirname) > deactivate```
 			- ```.\Scripts\activate```
