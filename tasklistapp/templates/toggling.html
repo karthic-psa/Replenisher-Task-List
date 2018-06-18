@@ -1,7 +1,10 @@
-    {% if view_completed %}
+{% if list_slug != "personal" %}
+{% if view_completed %}
       <a href="{% url 'tasks_view' list_id list_slug %}" class="btn btn-sm btn-warning">View incomplete tasks</a>
 
     {% else %}
       <a href="{% url 'tasks_view_completed' list_id list_slug %}" class="btn btn-sm btn-warning">View completed tasks</a>
 
     {% endif %}
+    <a href="{% url 'delete_list' list_id list_slug %}" class="btn btn-sm btn-danger">Delete this list</a>
+  {% endif %}

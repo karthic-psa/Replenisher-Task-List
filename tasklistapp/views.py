@@ -228,3 +228,29 @@ def add_list(request):
     }
 
     return render(request, 'new_list_add.html', context)
+
+
+# @staff_only
+# @login_required
+def delete_list(request, list_id, list_slug):
+    list_of_task = get_object_or_404(TaskList, slug=list_slug)
+
+    if list_of_task.group not in request.user.groups.all() and not request.user.is_staff:
+        raise PermissionDenied
+
+    if request.method == 'POST':
+        TaskList.objects.get(id=list_of_task.id).delete()
+        messages.success(request, "{list_name} is gone.".format(list_name=list_of_task.name))
+        return redirect('task_lists')
+    else:
+        task_count_done = Task.objects.filter(list_of_task=list_of_task.id, completed=True).count()
+        task_count_undone = Task.objects.filter(list_of_task=list_of_task.id, completed=False).count()
+        task_count_total = Task.objects.filter(list_of_task=list_of_task.id).count()
+
+    context = {
+        "list_of_task": list_of_task,
+        "task_count_done": task_count_done,
+        "task_count_undone": task_count_undone,
+        "task_count_total": task_count_total,
+    }
+    return render(request, 'delete_list.html', context)
