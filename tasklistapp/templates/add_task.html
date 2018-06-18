@@ -26,9 +26,10 @@
       <label for="id_user_assigned_to">Assigned To</label>
       {{form.user_assigned_to}}
     </div>
-
-    <input type="hidden" name="priority"
+    <div class="form-group">
+    <input type="number" name="priority"
       value="{% if form.priority.value %}{{ form.priority.value }}{% else %}999{% endif %}" id="id_priority">
+    </div>
     <input type="hidden" name="user_created" value="{{ request.user.id }}" id="id_user_created">
     <input type="hidden" name="list_of_task" value="{{ form.list_of_task.value }}" id="id_list_of_task">
 
