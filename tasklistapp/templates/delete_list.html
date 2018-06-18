@@ -29,6 +29,8 @@
 
 
 {% else %}
+  <a href="{% url 'task_lists' %}" class="btn btn-info btn-sm">
+      Back </a>
   <p>Sorry, you don't have permission to delete lists. Please contact your group administrator.</p>
 {% endif %}
 {% endblock %}
