@@ -20,7 +20,9 @@
 
   {% if tasks %}
     {% if list_slug == "personal" %}
+        <a href="{% url 'task_lists' %}" class="btn btn-info btn-sm">Back </a>
       <h1>Tasks assigned to me</h1>
+
     {% else %}
       <h1>{{ view_completed|yesno:"Completed tasks, Tasks" }} in "{{ list_of_task.name }}"</h1>
       <p><small><i>In Group "{{ list_of_task.group }}"</i></small></p>
@@ -29,6 +31,7 @@
       <table class="table" id="tasktable">
         <tr class="nodrop">
           <th>Task</th>
+          <th>Priority</th>
           <th>Created</th>
           <th>Due on</th>
           <th>Created</th>
@@ -42,6 +45,9 @@
           <tr id="{{ task.id }}">
             <td>
                 <a href="{% url 'task_detail' task.id %}">{{ task.title|truncatewords:10 }}</a>
+            </td>
+            <td>
+                {{ task.priority }}
             </td>
             <td>
                 {{ task.date_created|date:"m/d/Y" }}

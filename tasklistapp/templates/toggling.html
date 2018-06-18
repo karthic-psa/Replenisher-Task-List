@@ -1,4 +1,5 @@
 {% if list_slug != "personal" %}
+    <a href="{% url 'task_lists' %}" class="btn btn-info btn-sm">Back </a>
 {% if view_completed %}
       <a href="{% url 'tasks_view' list_id list_slug %}" class="btn btn-sm btn-warning">View incomplete tasks</a>
 
@@ -7,4 +8,5 @@
 
     {% endif %}
     <a href="{% url 'delete_list' list_id list_slug %}" class="btn btn-sm btn-danger">Delete this list</a>
+
   {% endif %}
