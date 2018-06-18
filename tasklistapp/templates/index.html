@@ -21,8 +21,8 @@
       {% for task in group.list %}
       <li class="list-group-item d-flex justify-content-between align-items-center">
         <a href="{% url 'tasks_view' task.id task.slug %}">{{ task.name }}</a>
-          <span class="badge badge-pill badge-danger"><a href="{% url 'delete_list' task.id task.slug %}">Delete this list</a></span>
-        <span class="badge badge-primary badge-pill">Total Tasks: {{ task.task_set.count }}</span>
+        <span class="badge badge-primary badge-pill"><a href="{% url 'delete_list' task.id task.slug %}" class="badge badge-danger">Delete this list</a></span>
+          <span class="badge badge-primary badge-pill"><a href="#" class="badge badge-secondary">Total Tasks: {{ task.task_set.count }}</a></span>
       </li>
       {% endfor %}
     </ul>
