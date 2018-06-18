@@ -29,8 +29,8 @@
 
     <input type="hidden" name="priority"
       value="{% if form.priority.value %}{{ form.priority.value }}{% else %}999{% endif %}" id="id_priority">
-    <input type="hidden" name="created_by" value="{{ request.user.id }}" id="id_created_by">
-    <input type="hidden" name="list_of_task" value="{{ form.list_of_task.value }}" id="id_list_task">
+    <input type="hidden" name="user_created" value="{{ request.user.id }}" id="id_user_created">
+    <input type="hidden" name="list_of_task" value="{{ form.list_of_task.value }}" id="id_list_of_task">
 
     <p>
       <input type="submit" name="add_task" value="Submit" class="btn btn-primary">

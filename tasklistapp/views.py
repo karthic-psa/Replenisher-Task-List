@@ -122,6 +122,52 @@ def tasks_view(request, list_id=None, list_slug=None, view_completed=False):
     return render(request, 'tasks_view.html', context)
 
 
+# def add_task(request, list_id=None, list_slug=None, view_completed=False):
+#     list_of_task = None
+#     form = None
+#     if list_slug == "personal":
+#         tasks = Task.objects.filter(user_assigned_to=request.user)
+#     else:
+#         list_of_task = get_object_or_404(TaskList, id=list_id)
+#         if list_of_task.group not in request.user.groups.all() and not request.user.is_staff:
+#             raise PermissionDenied
+#         tasks = Task.objects.filter(list_of_task=list_of_task.id)
+#
+#     if view_completed:
+#         tasks = tasks.filter(completed=True)
+#     else:
+#         tasks = tasks.filter(completed=False)
+#     if request.POST:
+#         form = AETaskForm(request.user, request.POST, initial={
+#             'user_assigned_to': request.user.id,
+#             'priority': 999,
+#             'list_of_task': list_of_task
+#         })
+#         if form.is_valid():
+#             try:
+#                 newtask = form.save(commit=False)
+#                 newtask.created_date = timezone.now()
+#                 newtask.save()
+#                 messages.success(request, "A new task has been added.")
+#                 return redirect('tasks_view')
+#             except IntegrityError:
+#                 messages.warning(
+#                     request,
+#                     "There was a problem saving the new task.")
+#
+#     else:
+#         if list_slug not in ["personal", "recent-add", "recent-complete", ]:
+#             form = AETaskForm(request.user, initial={
+#                 'user_assigned_to': request.user.id,
+#                 'priority': 999,
+#                 'list_of_task': list_of_task,
+#             })
+#     context = {
+#         'form': form
+#     }
+
+    # return render(request,'add_task.html',context)
+
 # @login_required
 def task_toggle(request, task_id):
 

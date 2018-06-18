@@ -42,7 +42,6 @@ urlpatterns = [
         views.tasks_view,
         name='tasks_view'),
 
-
     url(
         r'^add_list/',
         views.add_list,
@@ -54,15 +53,14 @@ urlpatterns = [
         name='task_toggle'),
 
     url(
-        r'^delete/(?P<task_id>[0-9]+)/',
-        views.task_delete,
-        name='task_delete'),
-
-    url(
         r'^task/(?P<task_id>[0-9]+)/',
         views.task_detail,
         name='task_detail'),
 
+    url(
+        r'^delete/(?P<task_id>[0-9]+)/',
+        views.task_delete,
+        name='task_delete'),
 
 
     url(r'^accounts/', include('django.contrib.auth.urls')),
