@@ -20,7 +20,7 @@ from tasklistapp import views
 from rest_framework import routers
 
 
-# app_name = 'tasklistapp'
+app_name = 'tasklistapp'
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
