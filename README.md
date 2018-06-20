@@ -13,7 +13,7 @@ Keeping in mind on how to drive future enhancements.
 
 1. Python 2.7
 2. Django 1.11+
-3  Django REST framework
+3. Django REST framework
 4. Bootstrap - already provided through CDN in project file (however you can install it or modify as you need.)
 5. jQuery - already provided through CDN in project file
 6. SQLite3 - as the database (already pre-installed with the project on django)
@@ -92,18 +92,18 @@ Keeping in mind on how to drive future enhancements.
 
 ## Comments and Notes: ##
 1. Still working on a few features:
-	- Feedback loop for users
-	- A better algorithm to handle priorities of different tasks in a list
-	- More robust url regex handlers to handle various types of user inputs and requests while maintaining logical consistency
-	- Ability to capture metrics and track usage patterns 
-	- Search tasks ability based on user auth
-	- Ability to create new user from the home page
-	- Ability for the superuser to create tasks in multiple groups at once
-	- More API (JSON) endpoints which filters results according to specific requests and provide CRUD functionality with APIs
+	- [ ] Feedback loop for users
+	- [ ] A better algorithm to handle priorities of different tasks in a list
+	- [ ] More robust url regex handlers to handle various types of user inputs and requests while maintaining logical consistency
+	- [ ] Ability to capture metrics and track usage patterns 
+	- [ ] Search tasks ability based on user auth
+	- [ ] Ability to create new user from the home page
+	- [ ] Ability for the superuser to create tasks in multiple groups at once
+	- [ ] More API (JSON) endpoints which filters results according to specific requests and provide CRUD functionality with APIs
 	
 2. Followed Test Driven Development (TDD) while building the app. However, need to perform more robust and automated testing to ensure proper functionality (Performed manual testing for the features provided in the application and ensured it works properly)
 	- [X] Performed Unit tests
-	- [x] Completed automated testing for the feature provided with pytest package
+	- [x] Completed automated testing for the features provided with pytest package
 	- [x] Added test files
 
 3. Performed the testing in a separate directory and environment to ensure no issues come up in the main project code and merged the test files now with this directory
