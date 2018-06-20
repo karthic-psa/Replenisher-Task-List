@@ -16,7 +16,7 @@ Keeping in mind on how to drive future enhancements.
 3. Django REST framework
 4. Bootstrap - already provided through CDN in project file (however you can install it or modify as you need.)
 5. jQuery - already provided through CDN in project file
-6. SQLite3 - as the database (already pre-installed with the project on django)
+6. SQLite - as the database (already pre-installed with the project on django)
 
 ## Instructions on how to install and run the project: ##
 
