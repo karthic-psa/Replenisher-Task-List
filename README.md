@@ -20,14 +20,14 @@ Keeping in mind on how to drive future enhancements.
 
 ## Instructions on how to install and run the project: ##
 
-1. Make sure Python 2 (version 2.7) is installed; in Command Prompt or PowerShell, type ```python --version  (else install Python and ensure the Python path is updated in Environment Variables)
+1. Make sure Python 2 (version 2.7) is installed; in Command Prompt or PowerShell, type ```python --version```  (else install Python and ensure the Python path is updated in Environment Variables)
 	- To install Python - (Windows)
 		1. Download from https://www.python.org/downloads/
 		2. Be sure to check you're downloading the right python version for your system (64bit vs 32bit) 
 		3. Open Python Installer - Customize as per requirements and change install Location and use: `C:\Python27
 		4. Click ```Install```
 		5. Update the Python path in Environment Variables of the system
-		6. Verify installation - in Command Prompt or PowerShell, type ```python --v`` or ```python -version```
+		6. Verify installation - in Command Prompt or PowerShell, type ```python --v``` or ```python -version```
 	- If Python is installed correctly, we use pip to install other components and packages
 2. Make sure you have django installed (else install django 1.11.X)
 	- To install django - (Windows)
